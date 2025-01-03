@@ -1,10 +1,14 @@
 ﻿<Application x:Class="Stamparija.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             <!--  xmlns:materialDesign="http://materialdesignxaml.net/winfx/xaml/themes" dodati u package manager install, livecharts za statistike --!>
+             xmlns:materialDesign="http://materialdesignxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Stamparija"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="theme/LightTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

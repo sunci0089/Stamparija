@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Stamparija.theme;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -18,7 +19,15 @@ namespace Stamparija
     {
         public MainWindow()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+                AppTheme.LoadDefaultTheme();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void UsernameTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -29,6 +38,17 @@ namespace Stamparija
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void LightThemeClick(object sender, RoutedEventArgs e)
+        {
+            AppTheme.ChangeTheme(new Uri("theme/LightTheme.xaml", UriKind.Relative));
+            
+        }
+
+        private void DarkThemeClick(object sender, RoutedEventArgs e)
+        {
+            AppTheme.ChangeTheme(new Uri("theme/DarkTheme.xaml", UriKind.Relative));
         }
     }
 }

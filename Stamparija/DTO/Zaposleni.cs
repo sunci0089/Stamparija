@@ -14,10 +14,10 @@ namespace Stamparija.DTO
         public string prezime { get; set; }
         public string jmb { get; set; }
         public string username { get; set; }
-        public string password { get; set; }
-        public bool isAdmin { get; set; }
+        public string password { get; set; } //todo trebalo bi samo napraviti select na bazu u obliku passwordhash==passwordhash
+        public byte isAdmin { get; set; }
         public Zaposleni() { }
-        public Zaposleni(string id, string ime, string prezime, string jmb, string username, string password, bool isAdmin)
+        public Zaposleni(string id, string ime, string prezime, string jmb, string username, string password, byte isAdmin)
         {
             this.id = id;
             this.ime = ime;

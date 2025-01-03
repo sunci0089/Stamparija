@@ -1,3 +1,4 @@
+USE stamparija_hci;
 INSERT INTO Mjesto (PostanskiBroj, Naziv) VALUES
 ('10000', 'Zagreb'),
 ('11000', 'Beograd'),
@@ -46,7 +47,7 @@ INSERT INTO Zaposleni (Ime, Prezime, JMB, Username, Password, ID, isAdmin ) VALU
 ('Petar', 'Petrovic', '1234123412345', 'admin', 'admin', '0', 1),
 ('Mira','Miric', '1231231231234','miramiric','miramiric', '1', 0);
 
-CREATE TABLE `zaposleni` (
+/*CREATE TABLE `zaposleni` (
   `Ime` varchar(45) DEFAULT NULL,
   `Prezime` varchar(45) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `JMB` varchar(13) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
@@ -56,4 +57,4 @@ CREATE TABLE `zaposleni` (
   `isAdmin` tinyint DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `JMB_UNIQUE` (`JMB`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci*/

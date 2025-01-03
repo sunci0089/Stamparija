@@ -13,7 +13,7 @@ namespace Stamparija.DTO
         public Saradnik saradnik { get; set; }
         public Otkup() { }
 
-        public Otkup(string sifra, Faktura faktura, Saradnik saradnik)
+        public Otkup(string sifra, Faktura faktura, Saradnik saradnik, string v)
         {
             this.sifra = sifra;
             this.faktura = faktura;

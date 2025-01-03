@@ -181,13 +181,13 @@ ENGINE = InnoDB;
 -- Table `stamparija_hci`.`Zaposleni`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `stamparija_hci`.`Zaposleni` (
-  `Ime` INT NULL,
+  `Ime` VARCHAR(45) NULL,
   `Prezime` VARCHAR(45) NULL,
   `JMB` VARCHAR(13) NULL,
-  `Username` VARCHAR(45) NULL,
-  `Password` VARCHAR(45) NULL,
+  `Username` VARCHAR(45) NOT NULL,
+  `Password` VARCHAR(45) NOT NULL,
   `Id` VARCHAR(45) NOT NULL,
-  `isAdmin` TINYINT NULL,
+  `isAdmin` TINYINT NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `JMB_UNIQUE` (`JMB` ASC) VISIBLE)
 ENGINE = InnoDB;

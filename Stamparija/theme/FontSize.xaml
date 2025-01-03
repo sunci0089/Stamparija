@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:System="clr-namespace:System;assembly=netstandard">
+
+    <System:Double x:Key="FontSizeSmall">14</System:Double>
+    <System:Double x:Key="FontSizeMedium">16</System:Double>
+    <System:Double x:Key="FontSizeLarge">18</System:Double>
+    <Style TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+    </Style>
+    <Style TargetType="TextBox">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+    </Style>
+    <Style TargetType="PasswordBox">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+    </Style>
+</ResourceDictionary>

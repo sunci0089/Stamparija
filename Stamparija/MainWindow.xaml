@@ -5,39 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stamparija"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" FontFamily="Nirmala UI" Background="#FF1B2F44">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FEFFFFFF">
-        <StackPanel.Effect>
-            <DropShadowEffect/>
-        </StackPanel.Effect>
+        Title="MainWindow" Height="450" Width="800" FontFamily="Nirmala UI">
 
-            <TextBlock Text="Prijavi se" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="Bold"
-                       Margin="35" Foreground="#FF1B2F44"/>
-            <TextBlock Text="Username:" 
+    <Window.Background>
+        <DynamicResource ResourceKey="WindowBackground" />
+    </Window.Background>
+
+    <Window.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="Light theme" Click="LightThemeClick"/>
+            <MenuItem Header="Dark theme" Click="DarkThemeClick"/>
+        </ContextMenu>
+    </Window.ContextMenu>
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource Background}">
+
+        <TextBlock Text="Prijavi se" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{DynamicResource FontSizeLarge}"
+                       Margin="35" Foreground="{DynamicResource Text}"/>
+        <TextBlock Text="Username:" 
                    HorizontalAlignment="Left" 
-                   Margin="30,0,0,0" />
-            <TextBox Name="UsernameTextBox" 
+                   Margin="30,0,0,0" Foreground="{DynamicResource Text}" />
+        <TextBox Name="UsernameTextBox" 
                  Width="150" 
-                 HorizontalAlignment="Left" Padding="5" 
-                 Margin="30,10,30,10" TextChanged="UsernameTextBox_TextChanged" Text="username..." SelectionBrush="#FF1B2F44" />
+                 HorizontalAlignment="Left" Padding="5"
+                 BorderThickness="0,0,0,2"
+                 Margin="30,10,30,10" 
+                 TextChanged="UsernameTextBox_TextChanged" Text="username" 
+                 SelectionBrush="{DynamicResource HighlightDark}" 
+                 Background="{DynamicResource Background}" 
+                 Foreground="{DynamicResource Text}" 
+                 BorderBrush="{DynamicResource Foreground}" />
 
-            <!-- Password Label and PasswordBox -->
-            <TextBlock Text="Password:" 
-                        HorizontalAlignment="Left"
-                        Margin="30,0,0,0"/>
-            <PasswordBox Name="PasswordBox" 
+        <!-- Password Label and PasswordBox -->
+        <TextBlock Text="Password:" 
+                   HorizontalAlignment="Left"
+                   Margin="30,0,0,0"
+                   Foreground="{DynamicResource Text}"/>
+        <PasswordBox Name="PasswordBox" 
                       Width="150" 
                       HorizontalAlignment="Left" 
                       Padding="5"
+                      BorderThickness="0,0,0,2"
                       Margin="30,10,30,10" 
-                      Password="password..." SelectionBrush="#FF1B2F44" />
+                      Password="password" 
+                      SelectionBrush="{DynamicResource HighlightDark}" 
+                      Background="{DynamicResource Background}" 
+                      Foreground="{DynamicResource Text}" 
+                      BorderBrush="{DynamicResource Foreground}" />
 
-            <!-- Login Button -->
-            <Button Content="Prijava" 
+        <!-- Login Button -->
+        <Button Content="Prijava" 
                 Padding="20,5,20,5" 
                 VerticalAlignment="Center" 
                 HorizontalAlignment="Center" 
                 Margin="0,30,0,40"  
-                Click="LoginButton_Click" Foreground="White" Background="#FF1B2F44" BorderBrush="Black" />
+                Click="LoginButton_Click" 
+                Foreground="{DynamicResource Text}" 
+                Background="{DynamicResource HighlightDark}" 
+                BorderBrush="{DynamicResource HighlightDark}" 
+                FontSize="{DynamicResource FontSizeMedium}" />
     </StackPanel>
 </Window>

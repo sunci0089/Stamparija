@@ -16,12 +16,12 @@ namespace Stamparija.DTO
         public string kategorija { get; set; }
         public double marza { get; set; }
 
-        public double proizvodjac_sifra { get; set; }
+        public string proizvodjac_sifra { get; set; }
 
         public Artikal() { }
 
         public Artikal(string sifra, string naziv, double kolicina,
-            double cijenaBezMarze, string kategorija, double marza, double proizvodjac_sifra)
+            double cijenaBezMarze, string kategorija, double marza, string proizvodjac_sifra)
         {
             this.sifra = sifra;
             this.naziv = naziv;
