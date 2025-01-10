@@ -8,14 +8,14 @@ namespace Stamparija.DTO
 {
     public class Mjesto
     {
-        public string postanskiBroj { get; set; }
-        public string naziv { get; set; }
+        public string PostanskiBroj { get; set; }
+        public string Naziv { get; set; }
         public Mjesto() { }
 
         public Mjesto(string postanskiBroj, string naziv)
         {
-            this.postanskiBroj = postanskiBroj;
-            this.naziv = naziv;
+            this.PostanskiBroj = postanskiBroj;
+            this.Naziv = naziv;
         }
 
         public override bool Equals(object obj)
@@ -24,17 +24,17 @@ namespace Stamparija.DTO
             if (obj == null || GetType() != obj.GetType()) return false;
 
             Mjesto other = (Mjesto)obj;
-            return postanskiBroj == other.postanskiBroj;
+            return PostanskiBroj == other.PostanskiBroj;
         }
 
         public override int GetHashCode()
         {
-            return postanskiBroj?.GetHashCode() ?? 0;
+            return PostanskiBroj?.GetHashCode() ?? 0;
         }
 
         public override string ToString()
         {
-            return postanskiBroj; // or $"{DatumVrijeme} - {VrstaUplate}" if needed
+            return PostanskiBroj; // or $"{DatumVrijeme} - {VrstaUplate}" if needed
         }
     }
 }

@@ -29,7 +29,7 @@ INSERT INTO Artikal (Sifra, Naziv, Kolicina, CijenaBezMarze, Kategorija, Marza, 
 ('R005', 'SKOLSKI DNEVNIK', 10.00, '19.93', 'KNJIGA', 20.00, 'PR001');
 
 INSERT INTO ZiroRacun (BrojRacuna, Banka, Saradnici_Sifra) VALUES
-('1234123412341234', 'A Banka', 'S004'),
+('1234123412341234', 'A Banka', 'S003'),
 ('1230123012301230', 'B Banka', 'S001');
 
 INSERT INTO Faktura (Sifra, DatumVrijeme, NacinPlacanja, ZiroRacun_Saradnika, VrstaUplate, CijenaSaPDV) 
@@ -37,24 +37,12 @@ VALUES ('F001', '2023-01-01 10:00:00', 'ZIRALNO', '1234123412341234', 'KUPOVINA'
 -- ('F002', '2023-02-01 12:00:00', 'GOTOVINSKI', '987654321', 'Kartica', 200.00);
 
 INSERT INTO OTKUP (BrojPotvrde, Faktura_sifra, Saradnici_Sifra) 
-VALUES ('0001', 'F001', 'S004');
+VALUES ('0001', 'F001', 'S003');
 
 INSERT INTO OTKUP_STAVKA(Otkup_BrojPotvrde, Roba_Sifra, Kolicina) 
 VALUES ('0001', 'R001', 10.00),
 ('0001', 'R005', 1.00);
 
 INSERT INTO Zaposleni (Ime, Prezime, JMB, Username, Password, ID, isAdmin ) VALUES
-('Petar', 'Petrovic', '1234123412345', 'admin', 'admin', '0', 1),
-('Mira','Miric', '1231231231234','miramiric','miramiric', '1', 0);
-
-/*CREATE TABLE `zaposleni` (
-  `Ime` varchar(45) DEFAULT NULL,
-  `Prezime` varchar(45) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `JMB` varchar(13) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `Username` varchar(45) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `Password` varchar(45) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `Id` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `isAdmin` tinyint DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `JMB_UNIQUE` (`JMB`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci*/
+('Petar', 'Petrovic', '1234123412345', 'admin', 'admin', 0, 1),
+('Mira','Miric', '1231231231234','miramiric','miramiric', 1, 0);

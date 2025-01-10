@@ -9,26 +9,28 @@ namespace Stamparija.DTO
     [Serializable]
     public class Artikal
     {
-        public string sifra { get; set; }
-        public string naziv { get; set; }
-        public double kolicina { get; set; }
-        public double cijenaBezMarze { get; set; }
-        public string kategorija { get; set; }
-        public double marza { get; set; }
+        public string Sifra { get; set; }
+        public string Naziv { get; set; }
+        public double Kolicina { get; set; }
+        public double CijenaBezMarze { get; set; }
+        public string Kategorija { get; set; }
+        public double Marza { get; set; }
+        public Proizvodjac Proizvodjac { get; set; }
 
-        public string proizvodjac_sifra { get; set; }
-
-        public Artikal() { }
+        public Artikal() {
+            Proizvodjac = new Proizvodjac();
+        }
 
         public Artikal(string sifra, string naziv, double kolicina,
-            double cijenaBezMarze, string kategorija, double marza, string proizvodjac_sifra)
+            double cijenaBezMarze, string kategorija, double marza, Proizvodjac proizvodjac)
         {
-            this.sifra = sifra;
-            this.naziv = naziv;
-            this.kolicina = kolicina;
-            this.cijenaBezMarze = cijenaBezMarze;
-            this.kategorija = kategorija;
-            this.marza = marza;
+            this.Sifra = sifra;
+            this.Naziv = naziv;
+            this.Kolicina = kolicina;
+            this.CijenaBezMarze = cijenaBezMarze;
+            this.Kategorija = kategorija;
+            this.Marza = marza;
+            this.Proizvodjac = proizvodjac;
         }
 
         public override bool Equals(object obj)
@@ -37,17 +39,17 @@ namespace Stamparija.DTO
             if (obj == null || GetType() != obj.GetType()) return false;
 
             Artikal other = (Artikal)obj;
-            return sifra == other.sifra;
+            return Sifra == other.Sifra;
         }
 
         public override int GetHashCode()
         {
-            return sifra?.GetHashCode() ?? 0;
+            return Sifra?.GetHashCode() ?? 0;
         }
 
         public override string ToString()
         {
-            return sifra; // or $"{DatumVrijeme} - {VrstaUplate}" if needed
+            return Sifra; // or $"{DatumVrijeme} - {VrstaUplate}" if needed
         }
     }
 }

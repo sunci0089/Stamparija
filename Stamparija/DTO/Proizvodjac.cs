@@ -8,16 +8,16 @@ namespace Stamparija.DTO
 {
     public class Proizvodjac
     {
-        public string sifra { get; set; }
-        public string ime { get; set; }
-        public string drzavaPorijekla { get; set; }
+        public string Sifra { get; set; }
+        public string Ime { get; set; }
+        public string DrzavaPorijekla { get; set; }
         public Proizvodjac() { }
 
         public Proizvodjac(string sifra, string ime, string drzavaPorijekla)
         {
-            this.sifra = sifra;
-            this.ime = ime;
-            this.drzavaPorijekla = drzavaPorijekla;
+            this.Sifra = sifra;
+            this.Ime = ime;
+            this.DrzavaPorijekla = drzavaPorijekla;
         }
 
         public override bool Equals(object obj)
@@ -26,17 +26,17 @@ namespace Stamparija.DTO
             if (obj == null || GetType() != obj.GetType()) return false;
 
             Proizvodjac other = (Proizvodjac)obj;
-            return sifra == other.sifra;
+            return Sifra == other.Sifra;
         }
 
         public override int GetHashCode()
         {
-            return sifra?.GetHashCode() ?? 0;
+            return Sifra?.GetHashCode() ?? 0;
         }
 
         public override string ToString()
         {
-            return sifra; // or $"{DatumVrijeme} - {VrstaUplate}" if needed
+            return Sifra; // or $"{DatumVrijeme} - {VrstaUplate}" if needed
         }
     }
 }
