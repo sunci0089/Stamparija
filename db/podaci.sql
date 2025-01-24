@@ -22,11 +22,11 @@ INSERT INTO Proizvodjac (Sifra, Ime, DrzavaPorijekla) VALUES
 ('PR003', 'Proizvodjac 3', 'Kina');
 
 INSERT INTO Artikal (Sifra, Naziv, Kolicina, CijenaBezMarze, Kategorija, Marza, Proizvodjac_sifra) VALUES
-('R001', 'PAPIR 80GR 610X860', 500.00, 0.11, 'PAPIR', 20.00, 'PR001'),
-('R002', 'LJEPENKA 1.5MM', 6.50, 1.50, 'LJEPENKA', 20.00, 'PR002'),
-('R003', 'PAPIR 120GR 70X100', 300.00, 0.11, 'PAPIR', 20.00, 'PR001'),
-('R004', 'PLATNO PLAVO', 2, 3.95, 'PLATNO', 20.00, 'PR002'),
-('R005', 'SKOLSKI DNEVNIK', 10.00, '19.93', 'KNJIGA', 20.00, 'PR001');
+('R001', 'PAPIR 80GR 610X860', 500.00, 0.11, 'PAPIR', 0.20, 'PR001'),
+('R002', 'LJEPENKA 1.5MM', 6.50, 1.50, 'LJEPENKA', 0.20, 'PR002'),
+('R003', 'PAPIR 120GR 70X100', 300.00, 0.11, 'PAPIR', 0.20, 'PR001'),
+('R004', 'PLATNO PLAVO', 2, 3.95, 'PLATNO', 0.20, 'PR002'),
+('R005', 'SKOLSKI DNEVNIK', 10.00, '19.93', 'KNJIGA', 0.20, 'PR001');
 
 INSERT INTO ZiroRacun (BrojRacuna, Banka, Saradnici_Sifra) VALUES
 ('1234123412341234', 'A Banka', 'S003'),

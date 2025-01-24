@@ -10,15 +10,17 @@ namespace Stamparija.DTO
         public class Faktura
         {
             public string Sifra { get; set; }
-            public string DatumVrijeme { get; set; } // datetime as a string
+            public DateTime DatumVrijeme { get; set; } // datetime as a string
             public string NacinPlacanja { get; set; }
             public string ZiroracunSaradnika { get; set; }
             public string VrstaUplate { get; set; }
             public double CijenaSaPDV { get; set; }
 
-            public Faktura() { }
+            public Faktura() {
+                DatumVrijeme = new DateTime();
+        }
 
-            public Faktura(string sifra, string datumVrijeme, string nacinPlacanja, string ziroracunSaradnika, string vrstaUplate, double cijenaSaPDV)
+            public Faktura(string sifra, DateTime datumVrijeme, string nacinPlacanja, string ziroracunSaradnika, string vrstaUplate, double cijenaSaPDV)
             {
                 Sifra = sifra;
                 DatumVrijeme = datumVrijeme;

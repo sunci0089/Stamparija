@@ -13,6 +13,12 @@ namespace Stamparija.DTO
 
         public double kolicina { get; set; }
 
+        public OtkupStavka()
+        {
+            otkup = new Otkup();
+            artikal = new Artikal();
+        }
+
         public OtkupStavka(Otkup otkup, Artikal artikal, double kolicina)
         {
             this.otkup = otkup;

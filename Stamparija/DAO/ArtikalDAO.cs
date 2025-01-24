@@ -51,7 +51,7 @@ namespace Stamparija.DAO
             return artikli;
         }
         //testirano
-        public List<Artikal> SearchArtikli(string kategorija) //treba po kategoriji
+        public List<Artikal> SearchArtikli(string kategorija)
         {
             var artikli = new List<Artikal>();
             string query = @"
@@ -67,6 +67,46 @@ namespace Stamparija.DAO
                 using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@kategorija", $"%{kategorija}%");
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            artikli.Add(new Artikal
+                            {
+                                Sifra = reader.GetString(0),
+                                Naziv = reader.GetString(1),
+                                Kategorija = reader.GetString(2),
+                                Kolicina = reader.GetDouble(3),
+                                CijenaBezMarze = reader.GetDouble(4),
+                                Marza = reader.GetDouble(5),
+                                Proizvodjac = new Proizvodjac(
+                                    reader.GetString(6), reader.GetString(7), reader.GetString(8))
+                            });
+                        }
+                    }
+                }
+            }
+
+            return artikli;
+        }
+
+        public List<Artikal> SearchArtikliBySifra(string sifra)
+        {
+            var artikli = new List<Artikal>();
+            string query = @"
+            SELECT a.sifra, a.naziv, a.kategorija, a.kolicina, a.cijenaBezMarze, a.marza, 
+            a.proizvodjac_sifra, p.ime, p.DrzavaPorijekla 
+            FROM artikal a
+            INNER JOIN proizvodjac p on a.Proizvodjac_Sifra=p.sifra 
+            WHERE a.sifra LIKE @sifra
+            ORDER BY sifra ASC";
+
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@sifra", $"%{sifra}%");
                     conn.Open();
                     using (var reader = cmd.ExecuteReader())
                     {

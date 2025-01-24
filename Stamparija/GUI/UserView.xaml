@@ -1,0 +1,80 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Stamparija"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="Stamparija.GUI.UserView"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="UserView">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="Foreground" Value="{DynamicResource Text}" />
+                <Setter Property="FontSize" Value="{DynamicResource FontSizeMedium}" />
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="BorderBrush" Value="{x:Null}"/>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <DockPanel LastChildFill="True">
+        <!-- Top tools bar -->
+        <WrapPanel DockPanel.Dock="Top" Background="{DynamicResource HighlightDark}" >
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource Text}" Click="ShowProfileSettings" >
+                <materialDesign:PackIcon Kind="User" Foreground="{DynamicResource Text}"
+                 Width="{DynamicResource FontSizeLarge}" Height="{DynamicResource FontSizeLarge}"/>
+            </Button>
+            <Label Width="133"/>
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource Text}" Click="RefreshButtonClick" >
+                <materialDesign:PackIcon Kind="Refresh" Foreground="{DynamicResource Text}" Width="{DynamicResource FontSizeLarge}" Height="{DynamicResource FontSizeLarge}"/>
+            </Button>
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource Text}" Click="AddButtonClick" >
+                    <materialDesign:PackIcon Kind="AddBold" Foreground="{DynamicResource Text}" Width="{DynamicResource FontSizeLarge}" Height="{DynamicResource FontSizeLarge}"/>
+                </Button>
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource Text}" Click="UpdateButtonClick" >
+                    <materialDesign:PackIcon Kind="ContentSave" Foreground="{DynamicResource Text}"
+                                         Width="{DynamicResource FontSizeLarge}" Height="{DynamicResource FontSizeLarge}"/>
+                </Button>
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource Text}" Click="DeleteButtonClick" >
+                <materialDesign:PackIcon Kind="Delete" Foreground="{DynamicResource Text}"
+                                         Width="{DynamicResource FontSizeLarge}" 
+                                         Height="{DynamicResource FontSizeLarge}" />
+            </Button>
+            <TextBox Name="SearchBox"
+                     Width="150" 
+                     HorizontalAlignment="Left" Padding="5"
+                     BorderThickness="0,0,0,2"
+                     Margin="5" 
+                     SelectionBrush="{DynamicResource HighlightDark}" 
+                     Background="{DynamicResource Background}" 
+                     Foreground="{DynamicResource Text}" 
+                     BorderBrush="{DynamicResource Foreground}" 
+                     TextChanged="SearchBox_TextChanged" 
+                     FontSize="{DynamicResource FontSizeMedium}"/>
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource Text}" Click="SearchButtonClick" >
+                <materialDesign:PackIcon Kind="Search" Foreground="{DynamicResource Text}"
+                             Width="{DynamicResource FontSizeLarge}" Height="{DynamicResource FontSizeLarge}"/>
+            </Button>
+        </WrapPanel>
+
+        
+            <!-- Left menu -->
+        <StackPanel x:Name="MyStackPanel" DockPanel.Dock="Left" Background="{DynamicResource HighlightLight}" >
+            <Button Content="{DynamicResource Associates}" Background="{DynamicResource Background}" Click="ShowSaradnici"/>
+            <Button Content="{DynamicResource Redemptions}"  Background="{x:Null}" Click="ShowOtkupi" />
+            <Button Content="{DynamicResource RedemptionItems}" Background="{x:Null}" Click="ShowOtkupStavke" />
+            <Button Content="{DynamicResource Invoces}" Background="{x:Null}" Click="ShowFakture" />
+            <Button Content="{DynamicResource Products}"  Background="{x:Null}" Click="ShowArtikli"/>
+            <Button Content="{DynamicResource Manufacturer}" Background="{x:Null}" Click="ShowProizvodjaci" />
+            <Button Content="{DynamicResource Places}" Background="{x:Null}" Click="ShowMjesta" />
+            <Button x:Name="zaposleniButton" Content="{DynamicResource Employees}" Background="{x:Null}" Visibility="Hidden" Click="ShowZaposleni" />
+        </StackPanel>
+
+        <!-- Main content frame -->
+            <Frame Background="{DynamicResource Background}" NavigationUIVisibility="Hidden" x:Name="WorkFrame" Foreground="{x:Null}" Source="TableSaradnik.xaml" />
+            <!-- Content can be dynamically loaded -->
+    </DockPanel>
+</Page>

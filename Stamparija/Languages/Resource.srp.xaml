@@ -1,0 +1,53 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="App_Title">Aplikacija</sys:String>
+    <sys:String x:Key="Login_Title">Prijavi se</sys:String>
+    <sys:String x:Key="Login">Prijava</sys:String>
+    <sys:String x:Key="Submit">Potvrdi</sys:String>
+    <sys:String x:Key="Cancel">Otkaži</sys:String>
+    <sys:String x:Key="Password">Lozinka</sys:String>
+    <sys:String x:Key="Username">Korisničko ime</sys:String>
+    <sys:String x:Key="Settings">Podešavanja</sys:String>
+    <sys:String x:Key="Language">Jezik</sys:String>
+    <sys:String x:Key="Theme">Tema</sys:String>
+    <sys:String x:Key="Add">Dodaj</sys:String>
+    <sys:String x:Key="Associates">Saradnici</sys:String>
+    <sys:String x:Key="ConfirmAddMessage">Da li ste sigurni da želite da dodate izabrani red?</sys:String>
+    <sys:String x:Key="ConfirmDeletionMessage">Da li ste sigurni da želite da obrišete izabrani red?</sys:String>
+    <sys:String x:Key="ConfirmUpdateMessage">Da li ste sigurni da želite da ažurirate izabrani red?</sys:String>
+    <sys:String x:Key="ConfirmLogoutMessage">Da li ste sigurni da želite da se odjavite?</sys:String>
+    <sys:String x:Key="NoDataInfo">Podaci nisu pronađeni.</sys:String>
+    <sys:String x:Key="ErrorOccurred">Došlo je do greške.</sys:String>
+    <sys:String x:Key="InvalidData">Podaci nisu validni. Molimo popunite sva polja.</sys:String>
+    <sys:String x:Key="NoSelectionMessage">Molimo odaberite red nad kojim se vrši akcija.</sys:String>
+    <sys:String x:Key="UnsupportedUpdate">Stavke ove tabele ne mogu biti ažurirane. Obrišite stavku, a zatim dodajte novu kako bi se korektno obračunala cijena.</sys:String>
+    <sys:String x:Key="EmptySearch">Molimo unesite podatke za pretragu.</sys:String>
+
+    <sys:String x:Key="Delete">Obriši</sys:String>
+    <sys:String x:Key="Employees">Zaposleni</sys:String>
+    <sys:String x:Key="Invoces">Fakture</sys:String>
+    <sys:String x:Key="Manufacturer">Proizvođač</sys:String>
+    <sys:String x:Key="No">Ne</sys:String>
+    <sys:String x:Key="Places">Mjesta</sys:String>
+    <sys:String x:Key="Products">Proizvodi</sys:String>
+    <sys:String x:Key="RedemptionItems">Stavke otkupa</sys:String>
+    <sys:String x:Key="Redemptions">Otkupi</sys:String>
+    <sys:String x:Key="Search">Pretraga</sys:String>
+    <sys:String x:Key="Tables">Tabele</sys:String>
+    <sys:String x:Key="Update">Ažuriraj</sys:String>
+    <sys:String x:Key="WindowTitle">Štamparija</sys:String>
+    <sys:String x:Key="Yes">Da</sys:String>
+    <sys:String x:Key="SelectLanguage">Odaberite jezik:</sys:String>
+    <sys:String x:Key="SelectTheme">Odaberite temu:</sys:String>
+    <sys:String x:Key="SelectFontSize">Odaberite veličinu slova:</sys:String>
+    <sys:String x:Key="LightTheme">Svijetla tema</sys:String>
+    <sys:String x:Key="DarkTheme">Tamna tema</sys:String>
+    <sys:String x:Key="SmallFont">Mali font</sys:String>
+    <sys:String x:Key="MediumFont">Srednji font</sys:String>
+    <sys:String x:Key="LargeFont">Veliki font</sys:String>
+    <sys:String x:Key="EnglishLanguage">Engleski jezik</sys:String>
+    <sys:String x:Key="SerbianLanguage">Srpski jezik</sys:String>
+    <sys:String x:Key="Logout">Odjavi se</sys:String>
+
+</ResourceDictionary>

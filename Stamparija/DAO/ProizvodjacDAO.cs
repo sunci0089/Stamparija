@@ -18,7 +18,7 @@ namespace Stamparija.DAO
 
             const string query = @"SELECT sifra, ime, drzavaPorijekla
                                FROM proizvodjac
-                               WHERE sifra = @sifra";
+                               WHERE sifra LIKE @sifra";
 
             using var connection = new MySqlConnection(_connectionString);
             using var command = new MySqlCommand(query, connection);

@@ -10,9 +10,9 @@
 
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource Background}">
 
-        <TextBlock Text="{x:Static local:Resource.Login}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{DynamicResource FontSizeLarge}"
+        <TextBlock Text="{DynamicResource Login_Title}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{DynamicResource FontSizeLarge}"
                    Margin="35" Foreground="{DynamicResource Text}"/>
-        <TextBlock Text="{x:Static local:Resource.Username}"
+        <TextBlock Text="{DynamicResource Username}"
                HorizontalAlignment="Left" 
                Margin="30,0,0,0" Foreground="{DynamicResource Text}" />
         <TextBox Name="UsernameTextBox" 
@@ -27,7 +27,7 @@
              BorderBrush="{DynamicResource Foreground}" />
 
         <!-- Password Label and PasswordBox -->
-        <TextBlock Text="{x:Static local:Resource.Password}" 
+        <TextBlock Text="{DynamicResource Password}" 
                HorizontalAlignment="Left"
                Margin="30,0,0,0"
                Foreground="{DynamicResource Text}"/>
@@ -44,7 +44,7 @@
                   BorderBrush="{DynamicResource Foreground}" />
 
         <!-- Login Button -->
-        <Button Content="{x:Static local:Resource.Login}"  
+        <Button Content="{DynamicResource Login}"  
             Padding="20,5,20,5" 
             VerticalAlignment="Center" 
             HorizontalAlignment="Center" 

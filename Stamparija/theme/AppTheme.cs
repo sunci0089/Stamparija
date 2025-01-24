@@ -1,6 +1,9 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,7 +14,7 @@ namespace Stamparija.theme
     {
         //internacionalizacija todo
        private static void ClearResources() {
-            Application.Current.Resources.MergedDictionaries.Clear();
+            //Application.Current.Resources.MergedDictionaries.Clear();
        }
        public static void LoadDefaultTheme()
        {
@@ -69,6 +72,36 @@ namespace Stamparija.theme
         public static void LoadTheme() {
             LoadThemeColor();
             LoadFontSize();
+            LoadLanguage();
+        }
+        
+        public static void LoadLanguage() //srp, eng
+        {
+            string language = Settings.Default.Language;
+            Uri uri = null;
+            switch (language)
+            {
+                case "eng":
+                    uri = new Uri("Languages/Resource.xaml", UriKind.Relative);
+                    break;
+                case "srp":
+                    uri = new Uri("Languages/Resource.srp.xaml", UriKind.Relative);
+                    break;
+                default:
+                    uri = new Uri("Languages/Resource.xaml", UriKind.Relative);
+                    break;
+            }
+
+            ResourceDictionary Theme = new ResourceDictionary() { Source = uri };
+            ClearResources();
+            Application.Current.Resources.MergedDictionaries.Add(Theme);
+          
+
+            // Set culture
+            CultureInfo _info = CultureInfo.CreateSpecificCulture(language);
+            Thread.CurrentThread.CurrentCulture = _info;
+            Thread.CurrentThread.CurrentUICulture = _info;
+            
         }
     }
 }

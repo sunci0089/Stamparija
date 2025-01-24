@@ -6,12 +6,21 @@
     <System:Double x:Key="FontSizeMedium">16</System:Double>
     <System:Double x:Key="FontSizeLarge">18</System:Double>
     <Style TargetType="TextBlock">
-        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
     </Style>
     <Style TargetType="TextBox">
-        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
     </Style>
     <Style TargetType="PasswordBox">
-        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+    </Style>
+    <Style TargetType="DataGrid">
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+    </Style>
+    <Style TargetType="ComboBox">
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}" />
+    </Style>
+    <Style TargetType="Button">
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeMedium}" />
     </Style>
 </ResourceDictionary>

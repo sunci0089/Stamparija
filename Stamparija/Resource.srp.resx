@@ -118,72 +118,72 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Add" xml:space="preserve">
-    <value>Add</value>
+    <value>Dodaj</value>
   </data>
   <data name="Associates" xml:space="preserve">
-    <value>Associates</value>
+    <value>Saradnici</value>
   </data>
   <data name="ConfirmAddMessage" xml:space="preserve">
-    <value>Are you sure you want to add selected row?</value>
+    <value>Da li sigurno želite dodati izabrani red?</value>
   </data>
   <data name="ConfirmDeletionMessage" xml:space="preserve">
-    <value>Are you sure you want to delete selected row?</value>
+    <value>Da li sigurno želite obrisati izabrani red?</value>
   </data>
   <data name="ConfirmUpdateMessage" xml:space="preserve">
-    <value>Are you sure you want to update selected row?</value>
+    <value>Da li sigurno želite ažurirati izabrani red?</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Obriši</value>
   </data>
   <data name="Employees" xml:space="preserve">
-    <value>Employees</value>
+    <value>Zaposleni</value>
   </data>
   <data name="Invoces" xml:space="preserve">
-    <value>Invoces</value>
+    <value>Fakture</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>ENG</value>
+    <value>SRP</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>&#x8;Log in</value>
+    <value>Prijavi se</value>
   </data>
   <data name="Manufacturer" xml:space="preserve">
-    <value>Manufacturer</value>
+    <value>Proizvođač</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>Ne</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value>Lozinka</value>
   </data>
   <data name="Places" xml:space="preserve">
-    <value>Places</value>
+    <value>Mjesta</value>
   </data>
   <data name="Products" xml:space="preserve">
-    <value>Products</value>
+    <value>Artikli</value>
   </data>
   <data name="RedemptionItems" xml:space="preserve">
-    <value>Redemption items</value>
+    <value>Stavke otkupa</value>
   </data>
   <data name="Redemptions" xml:space="preserve">
-    <value>Redemptions</value>
+    <value>Otkupi</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Pretraga</value>
   </data>
   <data name="Tables" xml:space="preserve">
-    <value>Tables</value>
+    <value>Šifarnici</value>
   </data>
   <data name="Update" xml:space="preserve">
-    <value>Update</value>
+    <value>Ažuriraj</value>
   </data>
   <data name="Username" xml:space="preserve">
-    <value>Username</value>
+    <value>Korisničko ime</value>
   </data>
   <data name="WindowTitle" xml:space="preserve">
-    <value>Printing house</value>
+    <value>Štamparija</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>Da</value>
   </data>
 </root>

@@ -1,0 +1,23 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Stamparija.GUI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="Stamparija.GUI.CustomMessageBox"
+        mc:Ignorable="d"
+        Title="" Height="175" Width="300"
+    WindowStartupLocation="CenterOwner" ResizeMode="NoResize" Background="{DynamicResource Background}" Foreground="{DynamicResource Text}">
+    
+    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TextBlock x:Name="MessageText" Text="Your message here to do something witg it" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   TextWrapping="Wrap" Margin="10,25,10,25" Foreground="{DynamicResource Text}" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+                    VerticalAlignment="Bottom">
+            <Button  x:Name="Button1" Content="Yes" Margin="5" Padding="10,2,10,2" Click="Button1_Click" Background="{DynamicResource HighlightLight}" BorderBrush="{DynamicResource Foreground}" Foreground="{DynamicResource Text}" />
+            <Button  x:Name="Button2" Content="No" Padding="10,2,10,2" Margin="5" Click="Button2_Click" Background="{DynamicResource Foreground}" BorderBrush="{DynamicResource Foreground}" Foreground="{DynamicResource Text}" />
+        </StackPanel>
+    </StackPanel>
+</Window>

@@ -15,21 +15,26 @@ using Stamparija.theme;
 using System.Text.Json.Serialization;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Stamparija.DAO;
+using Stamparija.DAO.connection;
 
 namespace Stamparija
 {
     public class UserManagement
     {
-        public static Zaposleni zaposleni { get; set; } //todo Da li private?
+        public static Zaposleni user { get; set; } //todo Da li private?
         public static UserSettings userSettings { get; set; }
 
         private static string SettingsFilePath { get; set; }
 
-
+        public bool isAdmin()
+        {
+            return user.isAdmin == 1;
+        }
         public static void LoadUserSettings(string username)
         {
-
-            SettingsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings", username + ".json");
+            string settingsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings");
+            SettingsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings" , username + ".json");
             //deserialize
 
             if (!File.Exists(SettingsFilePath))
@@ -39,6 +44,8 @@ namespace Stamparija
                 userSettings.FontSize = "small";
                 userSettings.Theme = "light";
                 userSettings.Language = "eng";
+                if(!Directory.Exists(settingsDirectory))
+                    Directory.CreateDirectory(settingsDirectory);
                 File.WriteAllText(SettingsFilePath, JsonSerializer.Serialize(userSettings));
             }
             else
@@ -47,10 +54,10 @@ namespace Stamparija
                 userSettings = JsonSerializer.Deserialize<UserSettings>(json);
             }
 
-            Settings.Default.CurrentUser = username;
             Settings.Default.FontSize = userSettings.FontSize;
             Settings.Default.Theme = userSettings.Theme;
             Settings.Default.Language = userSettings.Language;
+            Settings.Default.CurrentUser = username;
             Settings.Default.Save();
 
             AppTheme.LoadTheme();
@@ -69,19 +76,17 @@ namespace Stamparija
 
             Settings.Default.Save();
 
+            string settingsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings");
+            SettingsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings", username + ".json");
+            
+            if (!Directory.Exists(settingsDirectory)) Directory.CreateDirectory(settingsDirectory);
+            File.WriteAllText(SettingsFilePath, JsonSerializer.Serialize(userSettings));
+
             AppTheme.LoadTheme();
         }
         // Using BouncyCastle for password hashing
-        public static (string Hash, string Salt) HashPassword(string password)
+        public static (string Hash, string Salt) HashPassword(string password, string salt)
         {
-            // Generate a salt
-            byte[] saltBytes = new byte[16];
-            using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(saltBytes);
-            }
-            string salt = Convert.ToBase64String(saltBytes);
-
             // Combine password and salt
             string saltedPassword = password + salt;
 
@@ -110,27 +115,17 @@ namespace Stamparija
             string computedHash = Convert.ToBase64String(hashBytes);
             return computedHash == storedHash;
         }
-
-        public void RegisterUser(string username, string password)
+        public void loginUnsecure(string username, string password)
         {
-            var (hash, salt) = HashPassword(password);
-
-            string connectionString = "YourConnectionStringHere";
-            string query = "INSERT INTO Users (Username, PasswordHash, Salt) VALUES (@Username, @PasswordHash, @Salt)";
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            user = MySQLDataAccessFactory.GetZaposleniDataAccess().login(username, password);
+            if (user == null) throw new Exception("Invalid username or password");
+            else
             {
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Username", username);
-                command.Parameters.AddWithValue("@PasswordHash", hash);
-                command.Parameters.AddWithValue("@Salt", salt);
-
-                connection.Open();
-                command.ExecuteNonQuery();
+                LoadUserSettings(username);
             }
         }
 
-        public bool LoginUser(string username, string password)
+        public bool LoginUser(string username, string password) //doratditi sa hasho i salt todo
         {
             string connectionString = "YourConnectionStringHere";
             string query = "SELECT PasswordHash, Salt FROM Users WHERE Username = @Username";
@@ -148,7 +143,7 @@ namespace Stamparija
                         string storedHash = reader.GetString(0);
                         string storedSalt = reader.GetString(1);
 
-                        return VerifyPassword(password, storedHash, storedSalt);
+                        return VerifyPassword(password, storedHash, username);
                     }
                 }
             }
@@ -156,25 +151,6 @@ namespace Stamparija
         }
 
         // ADMINISTRATORSKE FUNKCIJE
-        public void RegisterAdmin(string username, string password)
-        {
-            var (hash, salt) = HashPassword(password);
-
-            string connectionString = "YourConnectionStringHere";
-            string query = "INSERT INTO Users (Username, PasswordHash, Salt, IsAdmin) VALUES (@Username, @PasswordHash, @Salt, @IsAdmin)";
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Username", username);
-                command.Parameters.AddWithValue("@PasswordHash", hash);
-                command.Parameters.AddWithValue("@Salt", salt);
-                command.Parameters.AddWithValue("@IsAdmin", 1); // Set admin flag
-
-                connection.Open();
-                command.ExecuteNonQuery();
-            }
-        }
 
         public bool IsAdmin(string username)
         {
@@ -200,7 +176,7 @@ namespace Stamparija
 
         public void UpdateUser(string username, string newUsername, string newPassword)
         {
-            var (hash, salt) = HashPassword(newPassword);
+            var (hash, salt) = HashPassword(newPassword, username);
 
             string connectionString = "YourConnectionStringHere";
             string query = "UPDATE Users SET Username = @NewUsername, PasswordHash = @PasswordHash, Salt = @Salt WHERE Username = @Username";
@@ -211,21 +187,6 @@ namespace Stamparija
                 command.Parameters.AddWithValue("@NewUsername", newUsername);
                 command.Parameters.AddWithValue("@PasswordHash", hash);
                 command.Parameters.AddWithValue("@Salt", salt);
-                command.Parameters.AddWithValue("@Username", username);
-
-                connection.Open();
-                command.ExecuteNonQuery();
-            }
-        }
-
-        public void DeleteUser(string username)
-        {
-            string connectionString = "YourConnectionStringHere";
-            string query = "DELETE FROM Users WHERE Username = @Username";
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@Username", username);
 
                 connection.Open();

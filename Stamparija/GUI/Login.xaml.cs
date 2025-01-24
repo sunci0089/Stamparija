@@ -33,8 +33,7 @@ namespace Stamparija.GUI
             try
             {
                 MainWindow.userManagement.loginUnsecure(username, password);
-                if (MainWindow.userManagement.isAdmin()) NavigationService.Navigate(new UserView());
-                else NavigationService.Navigate(new UserView());
+                NavigationService.Navigate(new UserView());
             }
             catch (Exception ex)
             {
