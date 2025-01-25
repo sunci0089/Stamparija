@@ -28,3 +28,5 @@ Klikom na dugme odjava nas vraća na stranicu za prijavu.
 Administrator ima dodatnu tabelu za rad sa korisnicima. On dodjeljuje prava korisnicima i kreira nove naloge, pošto registracija na aplikaciju nije omogućena.
 
  ![Screenshot 2025-01-24 174636](https://github.com/user-attachments/assets/21973d16-f7a2-4200-afba-01cac5863dff)
+
+Dodavanjem i brisanjem stavki iz tabele "Stavke otkupa" automatski se obračunava nova cijena fakture i količina artikla na stanju.
