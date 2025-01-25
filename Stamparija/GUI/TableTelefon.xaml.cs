@@ -20,11 +20,11 @@ using static MaterialDesignThemes.Wpf.Theme;
 namespace Stamparija.GUI
 {
     /// <summary>
-    /// Interaction logic for TableFaktura.xaml
+    /// Interaction logic for TableTelefon.xaml
     /// </summary>
-    public partial class TableFaktura : Page, ITableOperations
+    public partial class TableTelefon : Page, ITableOperations
     {
-        public TableFaktura()
+        public TableTelefon()
         {
             InitializeComponent();
             try
@@ -37,22 +37,35 @@ namespace Stamparija.GUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"{ex.Message}", "", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void MyDataGrid_CurrentCellChanged(object sender, EventArgs e)
+
+        private void MyDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
-            if (MyDataGrid.SelectedItem != null)
+            try
             {
-                MyDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+                // Cast the edited row to the Telefon class
+                var editedTelefon = e.Row.Item as Telefon;
+
+                if (editedTelefon != null && !string.IsNullOrEmpty(editedTelefon.BrTel))
+                {
+                    // If ID is 0, it's a new item
+                    MySQLDataAccessFactory.GetTelefonDataAccess().AddTelefon(editedTelefon);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Invalid data", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         public void deleteRow()
-        {// Get the selected Faktura
-            var selectedFaktura = MyDataGrid.SelectedItem as Faktura;
+        {
+            // Get the selected Telefon
+            var selectedTelefon = MyDataGrid.SelectedItem as Telefon;
 
-            if (selectedFaktura != null)
+            if (selectedTelefon != null)
             {
                 // Confirm deletion
                 var customMessageBox = new CustomMessageBox($"{Application.Current.Resources["ConfirmDeletionMessage"] as string}", $"{Application.Current.Resources["Yes"] as string}", $"{Application.Current.Resources["No"] as string}");
@@ -64,7 +77,7 @@ namespace Stamparija.GUI
                 {
                     try
                     {
-                        MySQLDataAccessFactory.GetFakturaDataAccess().DeleteFaktura(selectedFaktura.Sifra);
+                        MySQLDataAccessFactory.GetTelefonDataAccess().DeleteTelefon(selectedTelefon.Saradnik.Sifra, selectedTelefon.BrTel);
                         Refresh();
                     }
                     catch (MySqlException ex)
@@ -81,15 +94,11 @@ namespace Stamparija.GUI
 
         public void addRow()
         {
-            var selectedFaktura = MyDataGrid.SelectedItem as Faktura;
+            var selectedTelefon = MyDataGrid.SelectedItem as Telefon;
 
-            if (selectedFaktura != null)
+            if (selectedTelefon != null)
             {
-                if (string.IsNullOrEmpty(selectedFaktura.Sifra) ||
-                    string.IsNullOrEmpty(selectedFaktura.NacinPlacanja) ||
-                    string.IsNullOrEmpty(selectedFaktura.VrstaUplate) ||
-                    string.IsNullOrEmpty(selectedFaktura.DatumVrijeme.ToString())
-                    )
+                if (string.IsNullOrEmpty(selectedTelefon.BrTel) || selectedTelefon.Saradnik == null || string.IsNullOrEmpty(selectedTelefon.Saradnik.Sifra))
                 {
                     MessageBox.Show(Application.Current.Resources["InvalidData"] as string, "", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
@@ -104,7 +113,7 @@ namespace Stamparija.GUI
                 {
                     try
                     {
-                        MySQLDataAccessFactory.GetFakturaDataAccess().AddFaktura(selectedFaktura);
+                        MySQLDataAccessFactory.GetTelefonDataAccess().AddTelefon(selectedTelefon);
                         Refresh();
                     }
                     catch (MySqlException ex)
@@ -112,6 +121,7 @@ namespace Stamparija.GUI
                         MessageBox.Show($"{ex.Message}", "Database", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
+
             }
             else
             {
@@ -121,15 +131,13 @@ namespace Stamparija.GUI
 
         public void updateRow()
         {
-            var selectedFaktura = MyDataGrid.SelectedItem as Faktura;
-            
-            if (selectedFaktura != null)
+            MessageBox.Show(Application.Current.Resources["UnsupportedUpdate"] as string, "", MessageBoxButton.OK, MessageBoxImage.Information);
+
+           /* var selectedTelefon = MyDataGrid.SelectedItem as Telefon;
+
+            if (selectedTelefon != null)
             {
-                if (string.IsNullOrEmpty(selectedFaktura.Sifra) ||
-                    string.IsNullOrEmpty(selectedFaktura.NacinPlacanja) ||
-                    string.IsNullOrEmpty(selectedFaktura.VrstaUplate) ||
-                    string.IsNullOrEmpty(selectedFaktura.DatumVrijeme.ToString())
-                    )
+                if (string.IsNullOrEmpty(selectedTelefon.BrTel) || selectedTelefon.Saradnik == null || string.IsNullOrEmpty(selectedTelefon.Saradnik.Sifra))
                 {
                     MessageBox.Show(Application.Current.Resources["InvalidData"] as string, "", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
@@ -144,7 +152,7 @@ namespace Stamparija.GUI
                 {
                     try
                     {
-                        MySQLDataAccessFactory.GetFakturaDataAccess().UpdateFaktura(selectedFaktura);
+                        MySQLDataAccessFactory.GetTelefonDataAccess().UpdateTelefon(selectedTelefon);
                         Refresh();
                     }
                     catch (MySqlException ex)
@@ -157,32 +165,23 @@ namespace Stamparija.GUI
             {
                 MessageBox.Show(Application.Current.Resources["NoSelectionMessage"] as string, "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-        }
+        */}
+
         public void Refresh()
         {
-            var data = MySQLDataAccessFactory.GetFakturaDataAccess().GetFakture();
+            var data = MySQLDataAccessFactory.GetTelefonDataAccess().GetTelefoni();
             this.DataContext = data;
             MyDataGrid.ItemsSource = data;
-            var kupoprodaja = new List<string> { "KUPOVINA", "PRODAJA" };
+
+            var saradnici = MySQLDataAccessFactory.GetSaradnikDataAccess().GetSaradnici();
             var comboBoxColumn = MyDataGrid.Columns
                 .OfType<DataGridComboBoxColumn>()
-                .FirstOrDefault(c => c.Header.ToString() == "Vrsta uplate");
+                .FirstOrDefault(c => c.Header.ToString() == "Saradnik šifra");
 
             if (comboBoxColumn != null)
             {
-                comboBoxColumn.ItemsSource = kupoprodaja; // Assign the collection to the ItemsSource
+                comboBoxColumn.ItemsSource = saradnici; // Assign the collection to the ItemsSource
             }
-            var ziroracuni = MySQLDataAccessFactory.GetZiroracunDataAccess().GetZiroracun();
-            ziroracuni.Insert(0, new Ziroracun("", null, ""));
-            var comboBoxColumnArtikal = MyDataGrid.Columns
-                .OfType<DataGridComboBoxColumn>()
-                .FirstOrDefault(c => c.Header.ToString() == "Žiroračun saradnika");
-
-            if (comboBoxColumnArtikal != null)
-            {
-                comboBoxColumnArtikal.ItemsSource = ziroracuni; // Assign the collection to the ItemsSource
-            }
-
         }
 
         public void Search(string text)
@@ -195,13 +194,12 @@ namespace Stamparija.GUI
 
             try
             {
-                // Get the Faktura by Sifra
-                var foundFaktura = MySQLDataAccessFactory.GetFakturaDataAccess().SearchFakture(text);
+                var foundTelefon = MySQLDataAccessFactory.GetTelefonDataAccess().SearchTelefon(text);
 
-                if (foundFaktura != null)
+                if (foundTelefon != null)
                 {
                     // Display in the DataGrid
-                    MyDataGrid.ItemsSource = foundFaktura;
+                    MyDataGrid.ItemsSource = foundTelefon;
                 }
                 else
                 {
@@ -210,8 +208,10 @@ namespace Stamparija.GUI
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show($"{ex.Message}", "Database", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
 }
+
+

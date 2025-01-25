@@ -68,6 +68,18 @@ namespace Stamparija.GUI
             WorkFrame.Navigate(currentPage);
             stackPanelColor(sender, e);
         }
+        private void ShowTelefoni(object sender, RoutedEventArgs e)
+        {
+            currentPage = new TableTelefon();
+            WorkFrame.Navigate(currentPage);
+            stackPanelColor(sender, e);
+        }
+        private void ShowZiroracuni(object sender, RoutedEventArgs e)
+        {
+            currentPage = new TableZiroracun();
+            WorkFrame.Navigate(currentPage);
+            stackPanelColor(sender, e);
+        }
 
         private void ShowArtikli(object sender, RoutedEventArgs e)
         {

@@ -21,7 +21,7 @@ namespace Stamparija.DAO
             SELECT s.sifra, s.mjesto_postanskiBroj, m.naziv , s.naziv, s.ime, s.prezime, s.jib, s.jmb, s.vrsta
             FROM saradnik s
             INNER join mjesto m on s.mjesto_postanskiBroj=m.postanskiBroj
-            WHERE s.sifra = @sifra
+            WHERE s.sifra LIKE @sifra
             ORDER BY sifra ";
 
             using (var conn = new MySqlConnection(_connectionString))

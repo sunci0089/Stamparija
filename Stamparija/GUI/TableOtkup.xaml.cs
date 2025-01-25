@@ -15,16 +15,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static MaterialDesignThemes.Wpf.Theme;
 
 namespace Stamparija.GUI
 {
     /// <summary>
-    /// Interaction logic for TableFaktura.xaml
+    /// Interaction logic for TableOtkup.xaml
     /// </summary>
-    public partial class TableFaktura : Page, ITableOperations
+    public partial class TableOtkup : Page, ITableOperations
     {
-        public TableFaktura()
+        public TableOtkup()
         {
             InitializeComponent();
             try
@@ -40,22 +39,35 @@ namespace Stamparija.GUI
                 MessageBox.Show($"{ex.Message}", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-        private void MyDataGrid_CurrentCellChanged(object sender, EventArgs e)
+
+        private void MyDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
-            if (MyDataGrid.SelectedItem != null)
+            try
             {
-                MyDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+                // Cast the edited row to the Otkup class
+                var editedOtkup = e.Row.Item as Otkup;
+
+                if (editedOtkup != null && !string.IsNullOrEmpty(editedOtkup.sifra))
+                {
+                    // If ID is 0, it's a new item
+                    MySQLDataAccessFactory.GetOtkupDataAccess().AddOtkup(editedOtkup);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(Application.Current.Resources["InvalidData"] as string, "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
         public void deleteRow()
-        {// Get the selected Faktura
-            var selectedFaktura = MyDataGrid.SelectedItem as Faktura;
+        {
+            // Get the selected Otkup
+            var selectedOtkup = MyDataGrid.SelectedItem as Otkup;
 
-            if (selectedFaktura != null)
+            if (selectedOtkup != null)
             {
                 // Confirm deletion
-                var customMessageBox = new CustomMessageBox($"{Application.Current.Resources["ConfirmDeletionMessage"] as string}", $"{Application.Current.Resources["Yes"] as string}", $"{Application.Current.Resources["No"] as string}");
+                var customMessageBox = new CustomMessageBox($"{Application.Current.Resources["ConfirmDeletion"] as string}", $"{Application.Current.Resources["Yes"] as string}", $"{Application.Current.Resources["No"] as string}");
 
                 // Show the message box and check the result
                 bool? result = customMessageBox.ShowDialog();
@@ -64,7 +76,8 @@ namespace Stamparija.GUI
                 {
                     try
                     {
-                        MySQLDataAccessFactory.GetFakturaDataAccess().DeleteFaktura(selectedFaktura.Sifra);
+                        MySQLDataAccessFactory.GetOtkupDataAccess().DeleteOtkup(selectedOtkup.sifra);
+                        MySQLDataAccessFactory.GetFakturaDataAccess().DeleteFaktura(selectedOtkup.faktura.Sifra);
                         Refresh();
                     }
                     catch (MySqlException ex)
@@ -81,19 +94,10 @@ namespace Stamparija.GUI
 
         public void addRow()
         {
-            var selectedFaktura = MyDataGrid.SelectedItem as Faktura;
+            var selectedOtkup = MyDataGrid.SelectedItem as Otkup;
 
-            if (selectedFaktura != null)
+            if (selectedOtkup != null)
             {
-                if (string.IsNullOrEmpty(selectedFaktura.Sifra) ||
-                    string.IsNullOrEmpty(selectedFaktura.NacinPlacanja) ||
-                    string.IsNullOrEmpty(selectedFaktura.VrstaUplate) ||
-                    string.IsNullOrEmpty(selectedFaktura.DatumVrijeme.ToString())
-                    )
-                {
-                    MessageBox.Show(Application.Current.Resources["InvalidData"] as string, "", MessageBoxButton.OK, MessageBoxImage.Information);
-                    return;
-                }
                 // Confirm addition
                 var customMessageBox = new CustomMessageBox($"{Application.Current.Resources["ConfirmAddMessage"] as string}", $"{Application.Current.Resources["Yes"] as string}", $"{Application.Current.Resources["No"] as string}");
 
@@ -104,7 +108,9 @@ namespace Stamparija.GUI
                 {
                     try
                     {
-                        MySQLDataAccessFactory.GetFakturaDataAccess().AddFaktura(selectedFaktura);
+                        MySQLDataAccessFactory.GetFakturaDataAccess().AddFaktura(selectedOtkup.faktura);
+                        MySQLDataAccessFactory.GetOtkupDataAccess().AddOtkup(selectedOtkup);
+                        MessageBox.Show(Application.Current.Resources["RedemptionAddedMessage"] as string, "", MessageBoxButton.OK, MessageBoxImage.Information);
                         Refresh();
                     }
                     catch (MySqlException ex)
@@ -121,19 +127,10 @@ namespace Stamparija.GUI
 
         public void updateRow()
         {
-            var selectedFaktura = MyDataGrid.SelectedItem as Faktura;
-            
-            if (selectedFaktura != null)
+            var selectedOtkup = MyDataGrid.SelectedItem as Otkup;
+
+            if (selectedOtkup != null && !string.IsNullOrEmpty(selectedOtkup.sifra))
             {
-                if (string.IsNullOrEmpty(selectedFaktura.Sifra) ||
-                    string.IsNullOrEmpty(selectedFaktura.NacinPlacanja) ||
-                    string.IsNullOrEmpty(selectedFaktura.VrstaUplate) ||
-                    string.IsNullOrEmpty(selectedFaktura.DatumVrijeme.ToString())
-                    )
-                {
-                    MessageBox.Show(Application.Current.Resources["InvalidData"] as string, "", MessageBoxButton.OK, MessageBoxImage.Information);
-                    return;
-                }
                 // Confirm update
                 var customMessageBox = new CustomMessageBox($"{Application.Current.Resources["ConfirmUpdateMessage"] as string}", $"{Application.Current.Resources["Yes"] as string}", $"{Application.Current.Resources["No"] as string}");
 
@@ -144,7 +141,8 @@ namespace Stamparija.GUI
                 {
                     try
                     {
-                        MySQLDataAccessFactory.GetFakturaDataAccess().UpdateFaktura(selectedFaktura);
+                        MySQLDataAccessFactory.GetFakturaDataAccess().UpdateFaktura(selectedOtkup.faktura);
+                        MySQLDataAccessFactory.GetOtkupDataAccess().UpdateOtkup(selectedOtkup);
                         Refresh();
                     }
                     catch (MySqlException ex)
@@ -158,22 +156,33 @@ namespace Stamparija.GUI
                 MessageBox.Show(Application.Current.Resources["NoSelectionMessage"] as string, "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
         public void Refresh()
         {
-            var data = MySQLDataAccessFactory.GetFakturaDataAccess().GetFakture();
+            var data = MySQLDataAccessFactory.GetOtkupDataAccess().GetOtkupi();
             this.DataContext = data;
             MyDataGrid.ItemsSource = data;
-            var kupoprodaja = new List<string> { "KUPOVINA", "PRODAJA" };
+
+            var saradnici = MySQLDataAccessFactory.GetSaradnikDataAccess().GetSaradnici();
             var comboBoxColumn = MyDataGrid.Columns
                 .OfType<DataGridComboBoxColumn>()
-                .FirstOrDefault(c => c.Header.ToString() == "Vrsta uplate");
+                .FirstOrDefault(c => c.Header.ToString() == "Saradnik");
 
             if (comboBoxColumn != null)
             {
-                comboBoxColumn.ItemsSource = kupoprodaja; // Assign the collection to the ItemsSource
+                comboBoxColumn.ItemsSource = saradnici; // Assign the collection to the ItemsSource
+            }
+            var kupoprodaja = new List<string> { "KUPOVINA", "PRODAJA" };
+            var comboBoxColumn2 = MyDataGrid.Columns
+                .OfType<DataGridComboBoxColumn>()
+                .FirstOrDefault(c => c.Header.ToString() == "Vrsta uplate");
+
+            if (comboBoxColumn2 != null)
+            {
+                comboBoxColumn2.ItemsSource = kupoprodaja; // Assign the collection to the ItemsSource
             }
             var ziroracuni = MySQLDataAccessFactory.GetZiroracunDataAccess().GetZiroracun();
-            ziroracuni.Insert(0, new Ziroracun("", null, ""));
+            ziroracuni.Insert(0, new Ziroracun("",null,""));
             var comboBoxColumnArtikal = MyDataGrid.Columns
                 .OfType<DataGridComboBoxColumn>()
                 .FirstOrDefault(c => c.Header.ToString() == "Žiroračun saradnika");
@@ -182,7 +191,6 @@ namespace Stamparija.GUI
             {
                 comboBoxColumnArtikal.ItemsSource = ziroracuni; // Assign the collection to the ItemsSource
             }
-
         }
 
         public void Search(string text)
@@ -195,13 +203,13 @@ namespace Stamparija.GUI
 
             try
             {
-                // Get the Faktura by Sifra
-                var foundFaktura = MySQLDataAccessFactory.GetFakturaDataAccess().SearchFakture(text);
+                // Get the Otkup by Sifra
+                var foundOtkup = MySQLDataAccessFactory.GetOtkupDataAccess().SearchOtkup(text);
 
-                if (foundFaktura != null)
+                if (foundOtkup != null)
                 {
                     // Display in the DataGrid
-                    MyDataGrid.ItemsSource = foundFaktura;
+                    MyDataGrid.ItemsSource = foundOtkup;
                 }
                 else
                 {
@@ -215,3 +223,5 @@ namespace Stamparija.GUI
         }
     }
 }
+
+

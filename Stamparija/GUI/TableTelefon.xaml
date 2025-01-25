@@ -1,0 +1,60 @@
+﻿<Page x:Class="Stamparija.GUI.TableTelefon"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Stamparija"
+      xmlns:sys="clr-namespace:System;assembly=netstandard"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TableTelefon">
+
+    <Grid>
+        <DataGrid d:ItemsSource="{d:SampleData ItemCount=10}" AutoGenerateColumns="False" x:Name="MyDataGrid" 
+          VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+          Background="{DynamicResource Background}" 
+          BorderBrush="{DynamicResource Background}" 
+          Foreground="{DynamicResource Text}" 
+          OpacityMask="{DynamicResource Background}"
+          HorizontalGridLinesBrush="{DynamicResource Foreground}"
+          VerticalGridLinesBrush="{DynamicResource Foreground}"
+          AlternationCount="2"
+          AlternatingRowBackground="{DynamicResource Background}"
+          RowBackground="{DynamicResource Foreground}"
+          HeadersVisibility="Column"
+          GridLinesVisibility="Horizontal"
+          CanUserSortColumns="True"
+                  CanUserAddRows="True"
+                  IsReadOnly="False"
+          >
+            <DataGrid.Resources>
+                <Style TargetType="ScrollBar">
+                    <Setter Property="Background" Value="{DynamicResource Foreground}" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="{DynamicResource Background}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+                    <Setter Property="FontWeight" Value="Regular"/>
+                    <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}"/>
+                    <Setter Property="Margin" Value="5" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridComboBoxColumn Header="Saradnik šifra" 
+                    ItemsSource="{Binding saradnici}" 
+                    DisplayMemberPath="Sifra" 
+                    SelectedValueBinding="{Binding Saradnik.Sifra}" 
+                    SelectedValuePath="Sifra" 
+                                        IsReadOnly="False"
+                   />
+                <DataGridTextColumn Header="Broj telefona" Binding="{Binding BrTel, Mode=TwoWay}" IsReadOnly="False" />
+                <DataGridTextColumn Header="Ime" Binding="{Binding Saradnik.Ime}" IsReadOnly="True" Foreground="Gray" />
+                <DataGridTextColumn Header="Prezime" Binding="{Binding Saradnik.Prezime}" IsReadOnly="True" Foreground="Gray" />
+                <DataGridTextColumn Header="Naziv" Binding="{Binding Saradnik.Naziv}" IsReadOnly="True" Foreground="Gray" />
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

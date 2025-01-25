@@ -1,187 +1,157 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
-using System.Security.Cryptography;
+﻿using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Tls;
 using Stamparija.DTO;
+using System.Data;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Stamparija.DAO
 {
-    public class ZaposleniDao
+    public class ZaposleniDAO
     {
-        private Zaposleni zaposleni {  get; set; }
-        public static (string Hash, string Salt) HashPassword(string password)
+        private readonly string _connectionString;
+
+        public ZaposleniDAO(string connectionString)
         {
-            // Generate a salt
-            byte[] saltBytes = new byte[16];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(saltBytes);
-            }
-            string salt = Convert.ToBase64String(saltBytes);
-
-            // Combine password and salt
-            string saltedPassword = password + salt;
-
-            // Hash the salted password
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(saltedPassword));
-                string hash = Convert.ToBase64String(hashBytes);
-                return (hash, salt);
-            }
+            _connectionString = connectionString;
         }
 
-        public static bool VerifyPassword(string password, string storedHash, string storedSalt)
+        public List<Zaposleni> SearchZaposleni(string id) //ne dohvacati password to je samo hash
         {
-            string saltedPassword = password + storedSalt;
+            var retVal = new List<Zaposleni>();
 
-            using (SHA256 sha256 = SHA256.Create())
+            const string query = @"SELECT id, ime, prezime, jmb, username, password, isAdmin
+                               FROM zaposleni
+                               WHERE id LIKE @id";
+
+            using var connection = new MySqlConnection(_connectionString);
+            using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            connection.Open();
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
             {
-                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(saltedPassword));
-                string computedHash = Convert.ToBase64String(hashBytes);
-                return computedHash == storedHash;
-            }
-        }
-
-
-
-        public void RegisterUser(string username, string password)
-        {
-            var (hash, salt) = PasswordHelper.HashPassword(password);
-
-            string connectionString = "YourConnectionStringHere";
-            string query = "INSERT INTO Users (Username, PasswordHash, Salt) VALUES (@Username, @PasswordHash, @Salt)";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Username", username);
-                command.Parameters.AddWithValue("@PasswordHash", hash);
-                command.Parameters.AddWithValue("@Salt", salt);
-
-                connection.Open();
-                command.ExecuteNonQuery();
-            }
-        }
-        public bool LoginUser(string username, string password)
-        {
-            string connectionString = "YourConnectionStringHere";
-            string query = "SELECT PasswordHash, Salt FROM Users WHERE Username = @Username";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Username", username);
-
-                connection.Open();
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        string storedHash = reader.GetString(0);
-                        string storedSalt = reader.GetString(1);
-                        return PasswordHelper.VerifyPassword(password, storedHash, storedSalt);
-                    }
-                }
-            }
-            return false;
-        }
-
-
-
-        /// <summary>
-        /// ADMINISTRATORSKE FUNKCIJE
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        public void RegisterAdmin(string username, string password)
-        {
-            var (hash, salt) = PasswordHelper.HashPassword(password);
-
-            string connectionString = "YourConnectionStringHere";
-            string query = "INSERT INTO Users (Username, PasswordHash, Salt, IsAdmin) VALUES (@Username, @PasswordHash, @Salt, @IsAdmin)";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Username", username);
-                command.Parameters.AddWithValue("@PasswordHash", hash);
-                command.Parameters.AddWithValue("@Salt", salt);
-                command.Parameters.AddWithValue("@IsAdmin", 1); // Set admin flag
-
-                connection.Open();
-                command.ExecuteNonQuery();
-            }
-        }
-
-        public bool IsAdmin(string username)
-        {
-            string connectionString = "YourConnectionStringHere";
-            string query = "SELECT IsAdmin FROM Users WHERE Username = @Username";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Username", username);
-
-                connection.Open();
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        return reader.GetBoolean(0); // Return IsAdmin flag
-                    }
-                }
-            }
-            return false;
-        }
-        public void UpdateUser(string username, string newUsername, string newPassword)
-        {
-            var (hash, salt) = PasswordHelper.HashPassword(newPassword);
-
-            string connectionString = "YourConnectionStringHere";
-            string query = "UPDATE Users SET Username = @NewUsername, PasswordHash = @PasswordHash, Salt = @Salt WHERE Username = @Username";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@NewUsername", newUsername);
-                command.Parameters.AddWithValue("@PasswordHash", hash);
-                command.Parameters.AddWithValue("@Salt", salt);
-                command.Parameters.AddWithValue("@Username", username);
-
-                connection.Open();
-                command.ExecuteNonQuery();
-            }
-        }
-        public void DeleteUser(string username)
-        {
-            string connectionString = "YourConnectionStringHere";
-            string query = "DELETE FROM Users WHERE Username = @Username";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Username", username);
-
-                connection.Open();
-                command.ExecuteNonQuery();
-            }
-        }
-        public void PerformAdminTask(string adminUsername, Action adminTask)
-        {
-            if (!IsAdmin(adminUsername))
-            {
-                throw new UnauthorizedAccessException("You do not have permission to perform this action.");
+                retVal.Add(new Zaposleni(
+                    reader.GetInt32("id"),
+                    reader.GetString("ime"),
+                    reader.GetString("prezime"),
+                    reader.GetString("jmb"),
+                    reader.GetString("username"),
+                    reader.GetString("password"),
+                    reader.GetByte("isAdmin")
+                ));
             }
 
-            // Execute admin task
-            adminTask();
+            return retVal;
         }
-        //PerformAdminTask("adminUsername", () => DeleteUser("targetUsername"));
 
+        public Zaposleni login(string username, string hash)
+        {
+            Zaposleni retVal = null;
+            const string query = @"SELECT id, ime, prezime, jmb, username, password, isAdmin
+                               FROM zaposleni
+                               WHERE username = @username and password = @hash";
+            using var connection = new MySqlConnection(_connectionString);
+            using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@username", username);
+            command.Parameters.AddWithValue("@hash", hash);
+            connection.Open();
+            using var reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                retVal = new Zaposleni(
+                    reader.GetInt32("id"),
+                    reader.GetString("ime"),
+                    reader.GetString("prezime"),
+                    reader.GetString("jmb"),
+                    reader.GetString("username"),
+                    reader.GetString("password"),
+                    reader.GetByte("isAdmin")
+                );
+            }
+            return retVal;
+        }
+        public List<Zaposleni> GetZaposleni()
+        {
+            var retVal = new List<Zaposleni>();
+
+            const string query = @"SELECT id, ime, prezime, jmb, username, password, isAdmin
+                               FROM zaposleni
+                               ORDER BY id ASC";
+
+            using var connection = new MySqlConnection(_connectionString);
+            using var command = new MySqlCommand(query, connection);
+
+            connection.Open();
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                retVal.Add(new Zaposleni(
+                    reader.GetInt32("id"),
+                    reader.GetString("ime"),
+                    reader.GetString("prezime"),
+                    reader.GetString("jmb"),
+                    reader.GetString("username"),
+                    reader.GetString("password"),
+                    reader.GetByte("isAdmin")
+                ));
+            }
+
+            return retVal;
+        }
+
+        public bool AddZaposleni(Zaposleni zaposleni) //todo izbaciti unos id-a //polje neizmjenjivo
+        {
+            const string query = @"INSERT INTO zaposleni (id, ime, prezime, jmb, username, password, isAdmin) 
+                               VALUES (@id, @ime, @prezime, @jmb, @username, @password, @isAdmin)";
+
+            using var connection = new MySqlConnection(_connectionString);
+            using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@id", zaposleni.id);
+            command.Parameters.AddWithValue("@ime", zaposleni.ime);
+            command.Parameters.AddWithValue("@prezime", zaposleni.prezime);
+            command.Parameters.AddWithValue("@jmb", zaposleni.jmb);
+            command.Parameters.AddWithValue("@username", zaposleni.username);
+            command.Parameters.AddWithValue("@password", zaposleni.password);
+            command.Parameters.AddWithValue("@isAdmin", zaposleni.isAdmin);
+
+            connection.Open();
+            return command.ExecuteNonQuery() == 1;
+        }
+
+        public bool UpdateZaposleni(Zaposleni zaposleni)
+        {
+            const string query = @"UPDATE zaposleni
+                               SET ime = @ime, prezime = @prezime, jmb = @jmb, username = @username, password = @password, isAdmin = @isAdmin
+                               WHERE id = @id";
+
+            using var connection = new MySqlConnection(_connectionString);
+            using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@ime", zaposleni.ime);
+            command.Parameters.AddWithValue("@prezime", zaposleni.prezime);
+            command.Parameters.AddWithValue("@jmb", zaposleni.jmb);
+            command.Parameters.AddWithValue("@username", zaposleni.username);
+            command.Parameters.AddWithValue("@password", zaposleni.password);
+            command.Parameters.AddWithValue("@isAdmin", zaposleni.isAdmin);
+            command.Parameters.AddWithValue("@id", zaposleni.id);
+
+            connection.Open();
+            return command.ExecuteNonQuery() == 1;
+        }
+
+        public bool DeleteZaposleni(int id)
+        {
+            const string query = "DELETE FROM zaposleni WHERE id = @id";
+
+            using var connection = new MySqlConnection(_connectionString);
+            using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            connection.Open();
+            return command.ExecuteNonQuery() == 1;
+        }
     }
 }

@@ -13,7 +13,11 @@
         <sys:String x:Key="Theme">Theme</sys:String>
         <sys:String x:Key="Add">Add</sys:String>
         <sys:String x:Key="Associates">Associates</sys:String>
-        <sys:String x:Key="ConfirmAddMessage">Are you sure you want to add selected row?</sys:String>
+    <sys:String x:Key="Phonebook">Phonebook</sys:String>
+    <sys:String x:Key="BankAccounts">Bank accounts</sys:String>
+    <sys:String x:Key="RedemptionAddedMessage">Redemption added successfully. To add redemption items select menu Redemption and search items by redemption code.</sys:String>
+
+    <sys:String x:Key="ConfirmAddMessage">Are you sure you want to add selected row?</sys:String>
         <sys:String x:Key="ConfirmDeletionMessage">Are you sure you want to delete selected row?</sys:String>
         <sys:String x:Key="ConfirmUpdateMessage">Are you sure you want to update selected row?</sys:String>
         <sys:String x:Key="ConfirmLogoutMessage">Are you sure you want to log out?</sys:String>

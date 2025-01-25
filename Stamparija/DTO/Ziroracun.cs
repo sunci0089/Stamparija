@@ -12,6 +12,11 @@ namespace Stamparija.DTO
         public Saradnik saradnik { get; set; }
         public string banka {  get; set; }
 
+        public Ziroracun()
+        {
+            saradnik = new Saradnik();
+        }
+
         public Ziroracun(string brojRacuna, Saradnik saradnik, string banka)
         {
             this.brojRacuna = brojRacuna;

@@ -13,6 +13,10 @@
     <sys:String x:Key="Theme">Tema</sys:String>
     <sys:String x:Key="Add">Dodaj</sys:String>
     <sys:String x:Key="Associates">Saradnici</sys:String>
+    <sys:String x:Key="Phonebook">Imenik</sys:String>
+    <sys:String x:Key="BankAccounts">Žiroračuni</sys:String>
+    <sys:String x:Key="RedemptionAddedMessage">Otkup je uspješno dodan. Da biste dodali stavke otkupa odaberite meni Stavke otkupa i pretražite stavke po šifri otkupa.</sys:String>
+
     <sys:String x:Key="ConfirmAddMessage">Da li ste sigurni da želite da dodate izabrani red?</sys:String>
     <sys:String x:Key="ConfirmDeletionMessage">Da li ste sigurni da želite da obrišete izabrani red?</sys:String>
     <sys:String x:Key="ConfirmUpdateMessage">Da li ste sigurni da želite da ažurirate izabrani red?</sys:String>

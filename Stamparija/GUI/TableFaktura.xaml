@@ -23,6 +23,7 @@
               HeadersVisibility="Column"
               GridLinesVisibility="Horizontal"
               CanUserSortColumns="True"
+              CurrentCellChanged="MyDataGrid_CurrentCellChanged"
               >
             <DataGrid.Resources>
                 <Style TargetType="ScrollBar">
@@ -42,7 +43,12 @@
                 <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra, Mode=TwoWay}" />
                 <DataGridTextColumn Header="Datum i vrijeme" Binding="{Binding DatumVrijeme, Mode=TwoWay}" />
                 <DataGridTextColumn Header="Način plaćanja" Binding="{Binding NacinPlacanja, Mode=TwoWay}" />
-                <DataGridTextColumn Header="Žiroračun saradnika" Binding="{Binding ZiroracunSaradnika, Mode=TwoWay}" />
+                <DataGridComboBoxColumn Header="Žiroračun saradnika"
+   ItemsSource="{Binding ziroracuni}" 
+   DisplayMemberPath="brojRacuna" 
+   SelectedValueBinding="{Binding ZiroracunSaradnika, TargetNullValue=''}" 
+   SelectedValuePath="brojRacuna" 
+/>
                 <DataGridComboBoxColumn Header="Vrsta uplate" 
                         ItemsSource="{Binding kupoprodaja}"
                         SelectedValueBinding="{Binding VrstaUplate, Mode=TwoWay}"

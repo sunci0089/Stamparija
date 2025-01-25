@@ -70,6 +70,8 @@
             <Button Content="{DynamicResource Products}"  Background="{x:Null}" Click="ShowArtikli"/>
             <Button Content="{DynamicResource Manufacturer}" Background="{x:Null}" Click="ShowProizvodjaci" />
             <Button Content="{DynamicResource Places}" Background="{x:Null}" Click="ShowMjesta" />
+            <Button Content="{DynamicResource Phonebook}" Background="{x:Null}" Click="ShowTelefoni" />
+            <Button Content="{DynamicResource BankAccounts}" Background="{x:Null}" Click="ShowZiroracuni" />
             <Button x:Name="zaposleniButton" Content="{DynamicResource Employees}" Background="{x:Null}" Visibility="Hidden" Click="ShowZaposleni" />
         </StackPanel>
 

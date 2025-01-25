@@ -8,13 +8,17 @@ namespace Stamparija.DTO
 {
     public class Telefon
     {
-        public string brTel { get; set; }
-        public Saradnik saradnik { get; set; }
+        public string BrTel { get; set; }
+        public Saradnik Saradnik { get; set; }
 
+        public Telefon()
+        {
+            Saradnik = new Saradnik();
+        }
         public Telefon(string brTel, Saradnik saradnik)
         {
-            this.brTel = brTel;
-            this.saradnik = saradnik;
+            this.BrTel = brTel;
+            this.Saradnik = saradnik;
         }
 
         public override bool Equals(object obj)
@@ -23,17 +27,17 @@ namespace Stamparija.DTO
             if (obj == null || GetType() != obj.GetType()) return false;
 
             Telefon other = (Telefon)obj;
-            return brTel == other.brTel;
+            return BrTel == other.BrTel;
         }
 
         public override int GetHashCode()
         {
-            return brTel?.GetHashCode() ?? 0;
+            return BrTel?.GetHashCode() ?? 0;
         }
 
         public override string ToString()
         {
-            return brTel; // or $"{DatumVrijeme} - {VrstaUplate}" if needed
+            return BrTel;
         }
     }
 }

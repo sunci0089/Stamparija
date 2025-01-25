@@ -8,7 +8,7 @@ namespace Stamparija.DTO
 {
     public class Zaposleni
     {
-        public string id {  get; set; }
+        public int id {  get; set; }
         public string ime { get; set; }
 
         public string prezime { get; set; }
@@ -17,7 +17,7 @@ namespace Stamparija.DTO
         public string password { get; set; } //todo trebalo bi samo napraviti select na bazu u obliku passwordhash==passwordhash
         public byte isAdmin { get; set; }
         public Zaposleni() { }
-        public Zaposleni(string id, string ime, string prezime, string jmb, string username, string password, byte isAdmin)
+        public Zaposleni(int id, string ime, string prezime, string jmb, string username, string password, byte isAdmin)
         {
             this.id = id;
             this.ime = ime;
@@ -36,14 +36,9 @@ namespace Stamparija.DTO
             return id == other.id && username== other.username;
         }
 
-        public override int GetHashCode()
-        {
-            return id?.GetHashCode() ?? 0;
-        }
-
         public override string ToString()
         {
-            return id; // or $"{DatumVrijeme} - {VrstaUplate}" if needed
+            return username; // or $"{DatumVrijeme} - {VrstaUplate}" if needed
         }
     }
 }

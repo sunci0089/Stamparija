@@ -1,0 +1,70 @@
+﻿<Page x:Class="Stamparija.GUI.TableOtkup"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Stamparija"
+      xmlns:sys="clr-namespace:System;assembly=netstandard"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TableOtkup">
+
+    <Grid>
+        <DataGrid d:ItemsSource="{d:SampleData ItemCount=10}" AutoGenerateColumns="False" x:Name="MyDataGrid" 
+                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                  Background="{DynamicResource Background}" 
+                  BorderBrush="{DynamicResource Background}" 
+                  Foreground="{DynamicResource Text}" 
+                  OpacityMask="{DynamicResource Background}"
+                  HorizontalGridLinesBrush="{DynamicResource Foreground}"
+                  VerticalGridLinesBrush="{DynamicResource Foreground}"
+                  AlternationCount="2"
+                  AlternatingRowBackground="{DynamicResource Background}"
+                  RowBackground="{DynamicResource Foreground}"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  CanUserSortColumns="True"
+                  >
+            <DataGrid.Resources>
+                <Style TargetType="ScrollBar">
+                    <Setter Property="Background" Value="{DynamicResource Foreground}" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="{DynamicResource Background}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+                    <Setter Property="FontWeight" Value="Regular"/>
+                    <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}"/>
+                    <Setter Property="Margin" Value="5" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Šifra" Binding="{Binding sifra, Mode=TwoWay}" />
+                <DataGridComboBoxColumn Header="Saradnik" 
+                         ItemsSource="{Binding saradnici}" 
+                         DisplayMemberPath="Sifra" 
+                         SelectedValueBinding="{Binding saradnik.Sifra}" 
+                         SelectedValuePath="Sifra" 
+                         />
+                <DataGridTextColumn Header="Faktura" Binding="{Binding faktura.Sifra, Mode=TwoWay}" />
+                <DataGridTextColumn Header="Datum i vrijeme" Binding="{Binding faktura.DatumVrijeme, Mode=TwoWay}" />
+                <DataGridTextColumn Header="Način plaćanja" Binding="{Binding faktura.NacinPlacanja, Mode=TwoWay}" />
+                <DataGridComboBoxColumn Header="Žiroračun saradnika"
+   ItemsSource="{Binding ziroracuni}" 
+   DisplayMemberPath="brojRacuna" 
+   SelectedValueBinding="{Binding faktura.ZiroracunSaradnika, TargetNullValue=''}" 
+   SelectedValuePath="brojRacuna" 
+/>
+                <DataGridComboBoxColumn Header="Vrsta uplate" 
+        ItemsSource="{Binding kupoprodaja}"
+        SelectedValueBinding="{Binding faktura.VrstaUplate, Mode=TwoWay}"
+        />
+                <DataGridTextColumn Header="Cijena sa PDV" Binding="{Binding faktura.CijenaSaPDV, Mode=TwoWay}" IsReadOnly="True" Foreground="Gray"/>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
+
