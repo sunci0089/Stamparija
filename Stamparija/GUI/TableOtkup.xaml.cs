@@ -40,22 +40,11 @@ namespace Stamparija.GUI
             }
         }
 
-        private void MyDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        private void MyDataGrid_CurrentCellChanged(object sender, EventArgs e)
         {
-            try
+            if (MyDataGrid.SelectedItem != null)
             {
-                // Cast the edited row to the Otkup class
-                var editedOtkup = e.Row.Item as Otkup;
-
-                if (editedOtkup != null && !string.IsNullOrEmpty(editedOtkup.sifra))
-                {
-                    // If ID is 0, it's a new item
-                    MySQLDataAccessFactory.GetOtkupDataAccess().AddOtkup(editedOtkup);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(Application.Current.Resources["InvalidData"] as string, "", MessageBoxButton.OK, MessageBoxImage.Information);
+                MyDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
             }
         }
 

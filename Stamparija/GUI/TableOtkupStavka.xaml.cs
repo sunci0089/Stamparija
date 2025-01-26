@@ -44,22 +44,11 @@ namespace Stamparija.GUI
             }
         }
 
-        private void MyDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        private void MyDataGrid_CurrentCellChanged(object sender, EventArgs e)
         {
-            try
+            if (MyDataGrid.SelectedItem != null)
             {
-                // Cast the edited row to the OtkupStavka class
-                var editedOtkupStavka = e.Row.Item as OtkupStavka;
-
-                if (editedOtkupStavka != null && editedOtkupStavka.otkup != null && editedOtkupStavka.artikal != null)
-                {
-                    // If ID is 0, it's a new item
-                    MySQLDataAccessFactory.GetOtkupStavkaDataAccess().AddOStavka(editedOtkupStavka);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(Application.Current.Resources["InvalidData"] as string, "", MessageBoxButton.OK, MessageBoxImage.Information);
+                MyDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
             }
         }
 

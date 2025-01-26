@@ -24,6 +24,7 @@
                   HeadersVisibility="Column"
                   GridLinesVisibility="Horizontal"
                   CanUserSortColumns="True"
+                  CurrentCellChanged="MyDataGrid_CurrentCellChanged"
                   >
             <DataGrid.Resources>
                 <Style TargetType="ScrollBar">

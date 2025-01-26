@@ -84,8 +84,8 @@ namespace Stamparija.DAO
         public bool UpdateZiroracun(Ziroracun ziroRacun)
         {
             const string query = @"UPDATE ziroRacun 
-                               SET banka = @banka, saradnici_sifra = @saradnici_sifra
-                               WHERE brojRacuna = @brojRacuna";
+                               SET banka = @banka, saradnici_sifra = @saradnici_sifra 
+                               WHERE brojRacuna = @brojRacuna ";
 
             using var connection = new MySqlConnection(_connectionString);
             using var command = new MySqlCommand(query, connection);

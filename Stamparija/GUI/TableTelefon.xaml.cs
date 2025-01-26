@@ -41,22 +41,11 @@ namespace Stamparija.GUI
             }
         }
 
-        private void MyDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        private void MyDataGrid_CurrentCellChanged(object sender, EventArgs e)
         {
-            try
+            if (MyDataGrid.SelectedItem != null)
             {
-                // Cast the edited row to the Telefon class
-                var editedTelefon = e.Row.Item as Telefon;
-
-                if (editedTelefon != null && !string.IsNullOrEmpty(editedTelefon.BrTel))
-                {
-                    // If ID is 0, it's a new item
-                    MySQLDataAccessFactory.GetTelefonDataAccess().AddTelefon(editedTelefon);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Invalid data", MessageBoxButton.OK, MessageBoxImage.Error);
+                MyDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
             }
         }
 

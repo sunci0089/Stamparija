@@ -46,22 +46,11 @@ namespace Stamparija.GUI
             }
         }
 
-        private void MyDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        private void MyDataGrid_CurrentCellChanged(object sender, EventArgs e)
         {
-            try
+            if (MyDataGrid.SelectedItem != null)
             {
-                // Cast the edited row to the Ziroracun class
-                var editedZiroracun = e.Row.Item as Ziroracun;
-
-                if (editedZiroracun != null && !string.IsNullOrEmpty(editedZiroracun.brojRacuna))
-                {
-                    // If ID is 0, it's a new item
-                    MySQLDataAccessFactory.GetZiroracunDataAccess().AddZiroracun(editedZiroracun);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Invalid data", MessageBoxButton.OK, MessageBoxImage.Error);
+                MyDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
             }
         }
 

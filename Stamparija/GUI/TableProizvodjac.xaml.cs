@@ -40,22 +40,11 @@ namespace Stamparija.GUI
             }
         }
 
-        private void MyDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        private void MyDataGrid_CurrentCellChanged(object sender, EventArgs e)
         {
-            try
+            if (MyDataGrid.SelectedItem != null)
             {
-                // Cast the edited row to the Proizvodjac class
-                var editedProizvodjac = e.Row.Item as Proizvodjac;
-
-                if (editedProizvodjac != null && !string.IsNullOrEmpty(editedProizvodjac.Sifra))
-                {
-                    // If ID is 0, it's a new item
-                    MySQLDataAccessFactory.GetProizvodjacDataAccess().AddProizvodjac(editedProizvodjac);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Invalid data", MessageBoxButton.OK, MessageBoxImage.Error);
+                MyDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
             }
         }
 

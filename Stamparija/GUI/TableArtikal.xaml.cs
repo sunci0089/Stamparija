@@ -40,34 +40,13 @@ namespace Stamparija.GUI
             }
         }
 
-        private void MyDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        private void MyDataGrid_CurrentCellChanged(object sender, EventArgs e)
         {
-                // Cast the edited row to the Artikal class
-               /* var selectedArtikal = e.Row.Item as Artikal;
-
-            if (selectedArtikal != null && !string.IsNullOrEmpty(selectedArtikal.Sifra))
+            if (MyDataGrid.SelectedItem != null)
             {
-
-                var customMessageBox = new CustomMessageBox($"{Resource.ConfirmUpdateMessage}", $"{Resource.Yes}", $"{Resource.No}");
-
-                // Show the message box and check the result
-                bool? result = customMessageBox.ShowDialog();
-
-                if (result == true)
-                {*/
-                    try
-                    {
-                        updateRow();
-                        /*MySQLDataAccessFactory.GetArtikalDataAccess().UpdateArtikal(selectedArtikal);
-                        Refresh();*/
-                    }
-                    catch (MySqlException ex)
-                    {
-                        MessageBox.Show($"{ex.Message}", "Database", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-               /* }
-            }*/
+                MyDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
             }
+        }
 
         public void deleteRow()
         {

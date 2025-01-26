@@ -42,24 +42,12 @@ namespace Stamparija.GUI
                 MessageBox.Show($"{ex.Message}", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-        
-        //popraviti
-        private void MyDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-            try
-            {
-                // Cast the edited row to the Saradnik class
-                var editedSaradnik = e.Row.Item as Saradnik;
 
-                if (editedSaradnik != null && editedSaradnik.Sifra != "")
-                {
-                    // If ID is 0, it's a new item
-                    MySQLDataAccessFactory.GetSaradnikDataAccess().AddSaradnik(editedSaradnik);
-                }
-            }
-            catch(Exception ex)
-            { 
-                MessageBox.Show(ex.Message, "Invalid data", MessageBoxButton.OK, MessageBoxImage.Error);
+        private void MyDataGrid_CurrentCellChanged(object sender, EventArgs e)
+        {
+            if (MyDataGrid.SelectedItem != null)
+            {
+                MyDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
             }
         }
 

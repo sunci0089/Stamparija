@@ -24,8 +24,9 @@
           HeadersVisibility="Column"
           GridLinesVisibility="Horizontal"
           CanUserSortColumns="True"
-                   CanUserAddRows="True"
- IsReadOnly="False"
+          CanUserAddRows="True"
+          IsReadOnly="False"
+          CurrentCellChanged="MyDataGrid_CurrentCellChanged"
           >
             <DataGrid.Resources>
                 <Style TargetType="ScrollBar">
