@@ -76,7 +76,23 @@
         </StackPanel>
 
         <!-- Main content frame -->
-            <Frame Background="{DynamicResource Background}" NavigationUIVisibility="Hidden" x:Name="WorkFrame" Foreground="{x:Null}" Source="TableSaradnik.xaml" />
-            <!-- Content can be dynamically loaded -->
+        <Canvas Background="{DynamicResource Background}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <TextBlock Text="{DynamicResource NoDataInfo}"
+            VerticalAlignment="Top"
+            Canvas.Top="40"
+            Canvas.Left="10"
+            FontSize="{DynamicResource FontSizeSmall}"
+            Foreground="Gray" >
+            <TextBlock.RenderTransform>
+                <TranslateTransform X="0" Y="{DynamicResource FontSizeSmall}"/>
+            </TextBlock.RenderTransform>
+            </TextBlock>
+                <Frame Background="{DynamicResource Background}" NavigationUIVisibility="Hidden" x:Name="WorkFrame" 
+                   Foreground="{x:Null}" Source="TableSaradnik.xaml" Canvas.Left="0" VerticalAlignment="Top"
+                       Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                   />
+            
+        </Canvas>
+        <!-- Content can be dynamically loaded -->
     </DockPanel>
 </Page>

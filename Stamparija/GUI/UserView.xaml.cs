@@ -113,6 +113,7 @@ namespace Stamparija.GUI
             currentPage = new TableOtkupStavka();
             WorkFrame.Navigate(currentPage);
             stackPanelColor(sender, e);
+            SearchBox.Focus();
         }
         private void ShowProizvodjaci(object sender, RoutedEventArgs e)
         {

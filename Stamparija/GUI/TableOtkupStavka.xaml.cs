@@ -150,7 +150,7 @@ namespace Stamparija.GUI
 
         public void Refresh()
         {
-            var data = new List<OtkupStavka>();
+            var data = MySQLDataAccessFactory.GetOtkupStavkaDataAccess().GetOtkupStavka();
             this.DataContext = data;
             MyDataGrid.ItemsSource = data;
 
